@@ -31,6 +31,8 @@ Route::patch('/editProfile', 'UserController@updateProfile')->name('user.updateP
 
 Route::get('/description/{id}', 'UserController@viewDescription')->name('description.viewDescription');
 
+Route::post('/description/{id}', 'CommentsController@store')->name('comment.store');
+
 Route::get('/scholarship/{id}', 'UserController@scholarshipExplore')->name('user.explore');
 
 Route::get('login', function () {
@@ -56,6 +58,7 @@ Route::prefix('admin')->group(function(){
     Route::get('/student', 'StudentController@read')->name('student');
     Route::get('/scholarship', 'ScholarshipController@read')->name('scholarship.read');
     Route::get('/scholarshipView/{id}', 'ScholarshipController@view')->name('scholarship.view');
+    Route::post('/scholarshipView/{id}', 'ScholarshipController@comment')->name('scholarship.comment');
     Route::get('/editScholarship/{id}/edit', 'ScholarshipController@edit')->name('editScholarship.edit');
     Route::patch('/editScholarship/{id}/edit', 'ScholarshipController@update')->name('editScholarship.update');
     Route::delete('/editScholarship/{id}/delete', 'ScholarshipController@destroy')->name('editScholarship.destroy');

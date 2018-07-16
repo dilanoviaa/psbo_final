@@ -2,12 +2,12 @@
 
     <!-- Footer -->
     <footer>
-      <div class="container">
+      <div class="footer-distributed">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
             <ul class="list-inline text-center">
               <li class="list-inline-item">
-                <a href="#">
+                <a href="https://twitter.com/Ditmawa_IPB">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle fa-stack-2x"></i>
                     <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
@@ -15,7 +15,7 @@
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="#">
+                <a href="https://web.facebook.com/profile.php?id=100012307542568&_rdc=1&_rdr">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle fa-stack-2x"></i>
                     <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
@@ -23,15 +23,16 @@
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="#">
+                <a href="https://www.instagram.com/ditmawaipb/">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                    <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
                   </span>
                 </a>
               </li>
             </ul>
-            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+            <p class="copyright text-muted">Copyright 2018 &copy; SUBDIT KESEJAHTERAAN MAHASISWA - IPB</p>
+            <p class="copyright text-muted">Gd. Andi Hakim Nasoetion Lt. 1 Jl. Kampus IPB Dramaga Bogor 16680</p>
           </div>
         </div>
       </div>

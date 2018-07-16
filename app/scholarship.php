@@ -69,7 +69,7 @@ class scholarship extends Model
 
     public function comment()
     {
-        return $this->hasMany(Comments::class);
+        return $this->hasMany(Comment::class);
     }
 
     public function admin()

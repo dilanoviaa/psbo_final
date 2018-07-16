@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\scholarship;
 use App\User;
+use App\Comment;
 use App\Notifications\TutorialPublished;
 use App\requirement;
 use Carbon\Carbon;
@@ -94,10 +95,11 @@ class UserController extends Controller
         // dd($scholarships)
         // $requirements   = $scholarships->requirement;
         $requirements   = $scholarships->requirement;
+        $comments   = $scholarships->comment;
         $tags    = Tag::all();
         // $array_require = json_decode(json_encode($requirements), True);
         // dd($scholarships->tags());
-        return view('description', compact('scholarships', 'requirements', 'tags'));
+        return view('description', compact('scholarships', 'requirements', 'tags', 'comments'));
     }
 
     public function matchme()
@@ -109,38 +111,44 @@ class UserController extends Controller
         $nama2 = '';
         $matchScholarships = array();
         $i = 0;
-
+        $terakhir = requirement::all()->last()->id;
+        // echo $terakhir;
         foreach (requirement::all() as $requirement) {
-        $terakhir = requirement::latest()->first();
         $scholarships   = scholarship::find($requirement->getAttribute('id'));
         $requirements   = $scholarships->name;
         $deadline = $requirement->getAttribute('deadline');
         $a = strpos($requirement->getAttribute('program'), Auth::User()->program);
-        $fakultas = strpos($requirement->getAttribute('program'), Auth::User()->faculty);
-        $semester = strpos($requirement->getAttribute('program'), Auth::User()->program);
-        if(Carbon::parse($deadline)->gt($mytime) and Auth::User()->gda >= $requirement->getAttribute('gda')
-            and ($fakultas>=0 or $requirement->getAttribute('faculty') == 'Semua Fakultas') and $semester>=0 and $a>=0) {
+        $fakultas = strpos($requirement->getAttribute('faculty'), Auth::User()->faculty);
+        $semester = strpos($requirement->getAttribute('semester'), Auth::User()->semester);
+        // if($a == 0) {
+        //     $a = 1;
+        // }
+        //echo $a;
+        if(Carbon::parse($deadline)->gt($mytime) and Auth::User()->gda >= $requirement->getAttribute('gda') 
+        and $a >= 1 and $fakultas >=1 and $semester >= 1) {
             //echo $requirement->getAttribute('id');
             $nama2 = $nama2 . $requirements;
-            if($requirement->getAttribute('id') != $terakhir->getAttribute('id')) {
+            // echo $terakhir->getAttribute('id');
+            if($requirement->getAttribute('id') != $terakhir) {
                 $nama2 = $nama2 . ', ';
             }
             array_push($matchScholarships, $scholarships);
-            //echo $nama2;
             //$listScholarship = scholarship::orderBy('id')->getAttribute('name');
             //echo $listScholarship;
             //   dd($nama2);
             }   
         }
         // dd($matchScholarships);
+        $jumlah = 0;
         $jumlah = count($matchScholarships);
         session()->put('namaa', Auth::User()->name);
         session()->put('nama', $nama2);
+        // dd($nama2);
         session()->put('flag', 2);
-        if($jumlah > 0){
-            Auth::User()->notify(new TutorialPublished(Auth::User()));
-        }
+        // if($jumlah > 0){
+        //     Auth::User()->notify(new TutorialPublished(Auth::User()));
+        // }
         session()->flash('sukses', 'kami telah mengirimkan notifikasi beasiwa ke email anda');
-        return view('user/matchme', compact('matchScholarships','tags', 'jumlah'));
+        return view('matchme', compact('matchScholarships','tags', 'jumlah'));
         }
 }

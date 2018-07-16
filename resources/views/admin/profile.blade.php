@@ -41,6 +41,7 @@
               <!-- Current avatar -->
               <img class="img-responsive avatar-view" src="/storage/{{Auth::user()->avatar}}" alt="Avatar" title="Change the avatar" height="10">
             </div>
+            
           </div>
           <h3>{{$admins->name}}</h3>
 

@@ -26,8 +26,10 @@
                 {{-- <h2 class="subheading">{{$scholarships->firm}}</h2> --}}
                 <span class="meta"><small>Posted on</small>
                 {{$scholarships->getDate()}}</span>
-
+                <p>
+                        <img src="{{$scholarships->getImage()}}" alt="" style="width:400px;height:500px;"></p>
                 {!! $scholarships->description !!}
+                
             <div class="form-group">
                 <div class="col-md-9">
                   <b>Syarat:</b>
@@ -61,9 +63,114 @@
             </section> --}}
                 
                   <!-- Pager -->
+
+         {{-- FORM COMMENT --}}
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="col-md-7 col-sm-7 col-xs-7">
+                    {{-- <div class="container" >
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                
+                <form action="{{ route('comment.store', $scholarships->id) }}" method="post"  enctype="multipart/form-data">
+                  {{ csrf_field() }}
+
+                  <div class="form-group">
+
+                    <div class="item form-group">
+                      <label class="control-label col-md-2" for="textarea">Deskripsi <span class="required">*</span>
+                      </label>
+                      <div class="col-md-9">
+                        <textarea id="konten" required="required" value="{{old('content')}}" name="content" class="form-control col-md-9 col-xs-12" required="required"></textarea>
+                      </div>
+                    </div>
+                   </div>
+  
+                      <div class="form-group">
+                          <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                          <button type="submit" class="btn btn-success">Submit</button>
+                          </div>
+                      </div>
+                  
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div> --}}
+                {{-- END FORM --}}
+
+                 <!-- Comment Box - START -->
+                  <div class="container" >
+                      <div class="row">
+                          <div class="col-sm-8">
+                              <div class="panel panel-info">
+                                  <div class="panel-body">
+                                      
+                                      <form action="{{ route('comment.store', $scholarships->id) }}" method="post"  enctype="multipart/form-data">
+                                            {{ csrf_field() }}
+                                            <div class="form-group">
+                                            <textarea id="konten" required="required" value="{{old('content')}}" name="content" placeholder="Write your comment here!" class="pb-cmnt-textarea"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        </form>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <link href= "{{ asset('css/boxcoment.css') }}" rel="stylesheet">
+                  <!-- Comment Box - END -->
+
+
+                  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+                 
+                  <div class="container">
+                      <div class="row">
+                        <div class="col-sm-8">
+                         @foreach ($comments as $comment)  
+                          <div class="panel panel-info">
+                             <div class="panel-body">
+                                <div class="pull-left meta">
+                                    <div class="title h5">
+                                        @if ($comment->admin_id)
+                                            <a href="#"><b>{{$comment->name}} (Admin)</b></a>
+                                            made a post.
+                                        @else
+                                            <a href="#"><b>{{$comment->name}}</b></a>
+                                            made a post.
+                                        @endif
+                                          
+                                          </div>
+                                          <h6 class="text-muted time">{{$comment->GetDate()}}</h6>
+                                      </div>
+                                  </div>  
+                                  <div class="post-description">
+                                      <p>{{$comment->content}}</p>
+                                  <link href= "{{ asset('css/coment.css') }}" rel="stylesheet">     
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                
+            </article>
         
+
+                <br>
+                <br>
+                {{-- SHOW COMMENT --}}
+                {{-- @foreach ($comments as $comment)
+                    {{$comment->content}}
+                    <br>
+                    {{$comment->name}}
+                    <br>
+                @endforeach --}}
+                {{-- END SHOW COMMENT --}}
               </div>
         
               @if (jumlah != 0)

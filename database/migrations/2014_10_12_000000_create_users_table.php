@@ -22,10 +22,11 @@ class CreateUsersTable extends Migration
             $table->string('department')->nullable();
             $table->string('faculty')->nullable();
             $table->float('gda')->nullable();
-            $table->integer('semester')->nullable();
+            $table->string('semester')->nullable();
             $table->string('program')->nullable();
             $table->string('telephon')->nullable();
             $table->string('avatar')->nullable()->default(null);
+            $table->string('status')->default('0');
             $table->rememberToken();
             $table->timestamps();
         });

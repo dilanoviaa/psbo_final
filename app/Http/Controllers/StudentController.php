@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\student;
+use App\User;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -13,7 +14,7 @@ class StudentController extends Controller
     }
     public function read()
     {
-        $students = student::all();
+        $students = user::all();
 
         return view('student', compact('students'));
     }

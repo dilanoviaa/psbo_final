@@ -35,11 +35,12 @@
                     <table id="datatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
-                          <th>Nama</th>
+                          <th>No</th>
+                          <th>Name</th>
                           <th>Nim</th>
-                          <th>Departemen</th>
-                          <th>Fakultas</th>
-                          <th>IPK</th>
+                          <th>Departement</th>
+                          <th>Faculty</th>
+                          <th>GDA</th>
                         </tr>
                       </thead>
 
@@ -49,6 +50,7 @@
                       <?php $no++ ;?>
                         <tr>
                           <td>{{ $no }}</td>
+                          <td>{{ $student->name}}</td>
                           <td>{{ $student->nim }}</td>
                           <td>{{ $student->departmen }}</td>
                           <td>{{ $student->faculty }}</td>

@@ -16,18 +16,18 @@ class RequirementSeeder extends Seeder
             [
                 'scholarship_id'    => '1',
                 'gda'               => '3.00',
-                'semester'          => '1-6',
+                'semester'          => ';1;2;3;4;5;6',
                 'deadline'          => '2018-12-20',
-                'faculty'           => 'Semua Fakultas',
-                'program'           => 'S1',
+                'faculty'           => ';Semua Fakultas',
+                'program'           => ';S1',
             ],
             [
                 'scholarship_id'    => '2',
                 'gda'               => '3.00',
-                'semester'          => '1-6',
+                'semester'          => ';1;2;3;4;5;6',
                 'deadline'          => '2018-12-10',
-                'faculty'           => 'Semua Fakultas',
-                'program'           => 'S1',
+                'faculty'           => ';Semua Fakultas',
+                'program'           => ';S1',
             ],
             
         ]);

@@ -16,6 +16,8 @@ use Carbon\Carbon;
 use App\Notifications\TutorialPublished;
 use Illuminate\Support\Collection;
 use App\Userinfo;
+use App\User;
+use App\Comment;
 session()->regenerate();
 error_reporting(0);
 
@@ -38,6 +40,7 @@ class ScholarshipController extends Controller
     {
         $tags   = tag::all();
         return view('/addScholarship', compact('tags'));
+        // return view('haha');
     }
 
     public function store(Request $request)
@@ -55,9 +58,10 @@ class ScholarshipController extends Controller
             
         ));
         
-        $faculty    = implode(",", $request->faculties);
-        $program    = implode(";", $request->programs);
-        $semester   = implode(",", $request->semesters);
+        $faculty    = ','.implode(",", $request->faculties);
+        // dd($faculty);
+        $program    = ';'.implode(";", $request->programs);
+        $semester   = ','.implode(",", $request->semesters);
         $tanggal    = $request->deadline;
         $date       = date("Y-m-d", strtotime($tanggal));
         if($request->file('image') != null){
@@ -78,28 +82,31 @@ class ScholarshipController extends Controller
             'semester'   => $semester,
             'deadline'   => $date,
             'faculty'    => $faculty,
-            'program'    => $program
+            'program'    => $program,
         ]);
 
         //kode jopan ngirim notif email ke semua user yg memenuhi syarat
         $meong = $request->input('name');
-        foreach (Userinfo::all() as $user) {
+        $terakhir = requirement::latest()->first();
+        foreach (User::all() as $user) {
         $aa = $user->getAttribute('name');
         $a = strpos($program, $user->getAttribute('program'));
-        if($user->getAttribute('faculty') == $request->input('faculty') and
-        $user->getAttribute('gda') >= $request->input('gda') and
-        $user->getAttribute('semester') == $request->input('semester') and
-        $a >= 0) {
+        $fakultas1 = strpos($faculty, $user->getAttribute('faculty'));
+        $semester1 = strpos($semester, $user->getAttribute('semester'));
+        // dd($program);
+
+        if($fakultas1 >= 1 and $user->getAttribute('gda') >= $request->input('gda') and $semester1 >= 1 and $a >= 1) {
             $request->session()->put('namaa', $aa);
             $request->session()->put('nama', $meong);
             session()->put('flag', 1);
+            session()->put('id', $terakhir->getAttribute('id'));
             $user->notify(new TutorialPublished($user));
         }
         }
-        //sampe sini
+        // sampe sini
 
         $scholarships->tags()->sync($request->tags, false);
-        session()->flash('success', 'Scholarship succesful added!');
+        session()->flash('success', 'Scholarship successfull added!');
         return redirect()->route('scholarship.read');
     }
 
@@ -133,9 +140,9 @@ class ScholarshipController extends Controller
             
         ));
 
-        $faculty    = implode(",", $request->faculties);
-        $program    = implode(";", $request->programs);
-        $semester   = implode(",", $request->semesters);
+        $faculty    = ';'.implode(";", $request->faculties);
+        $program    = ';'.implode(";", $request->programs);
+        $semester   = ';'.implode(";", $request->semesters);
         $tanggal    = $request->deadline;
         $date       = date("Y-m-d", strtotime($tanggal));
 
@@ -186,7 +193,9 @@ class ScholarshipController extends Controller
         $requirements   = $scholarships->requirement;
         // $array_require = json_decode(json_encode($requirements), True);
         // dd($scholarships->tags());
-        return view('admin.scholarshipView', compact('scholarships', 'requirements'));
+        $comments       = $scholarships->comment;
+        
+        return view('admin.scholarshipView', compact('scholarships', 'requirements','comments'));
     }
 
     public function test($type)
@@ -219,4 +228,32 @@ class ScholarshipController extends Controller
         return view('/test');
     }
 
+    public function comment(Request $request, $id)
+    {
+        $user           = Auth::user();
+        $scholarships   = scholarship::find($id); 
+        $this->validate($request, array(
+            'content'          => 'required|max:255',
+        ));
+
+        $comment            = new Comment();
+        $comment->content   = $request->content;
+        $comment->user_id   = 1;
+        $comment->admin_id  = $user->id;
+        $comment->user_email= $user->email;
+        $comment->name      = $user->name;
+
+        $comment->scholarship()->associate($scholarships);
+        $comment->save();       
+
+        $comments           = $scholarships->comment;
+
+        $requirements       = $scholarships->requirement;
+        $tags    = Tag::all();
+
+        // return redirect()->route('scholarship.read');
+
+        // return redirect()->route('admin.scholarshipView', compact('scholarships', 'requirements','comments'));
+        return redirect()->back();
+    }
 }

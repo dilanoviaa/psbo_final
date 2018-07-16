@@ -12,6 +12,7 @@ use App\scholarship;
 use App\requirement;
 use Session;
 use App\Http\Controllers\Controller;
+use App\Userinfo;
 
 class TutorialPublished extends Notification
 {
@@ -46,12 +47,30 @@ class TutorialPublished extends Notification
      */
     public function toMail($notifiable)
     {
-        $value = Session::get('nama');
+        //if($flag == 1 or $flag == 2) {
+            $value = Session::get('nama');
+            if($flag == 2) {
+                $url = '/description/'.$id;
+            }
+            else {
+                $url = '/login';
+            }
+        //}
+//         else {
+//             $value = '';
+//             $url = '/login';
+// //            $user->getAttribute('status') = $user->getAttribute('1');
+//         }
+        // $value = Session::get('nama');
         $flag = Session::get('flag');
         $id = Session::get('id');
         if($flag == 1) {
           $str = 'Jangan lewatkan kesempatanmu mendaftar beasiswa "';
           $str1 = '", ayo cek sekarang!';
+        }
+        else if($flag == 3) {
+          $str = 'Silahkan klik link berikut ';
+          $str1 = 'untuk validasi akun anda';
         }
         else {
           $str = 'Ayo daftar beasiswa "';
@@ -60,7 +79,7 @@ class TutorialPublished extends Notification
         return (new MailMessage)
                     ->subject('Beasiswa Yang Cocok Untukmu Telah Hadir!')
                     ->line($str .$value. $str1)
-                    ->action('Masuk ke website', url('/description/'.$id))
+                    ->action('Masuk ke website', url($url))
                     ->line('Semoga harimu menyenangkan!');
     }
 

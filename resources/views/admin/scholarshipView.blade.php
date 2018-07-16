@@ -145,7 +145,48 @@
             <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
 
               <!-- start user projects -->
-              
+              <form action="{{ route('scholarship.comment', $scholarships->id) }}" method="post"  enctype="multipart/form-data">
+                  {{ csrf_field() }}
+                <div class="form-group">
+                  <label class="col-md-12 control-label">Add Comment:</label>
+                  <div class="col-md-9">
+                      <textarea id="konten" required="required" value="" name="content" placeholder="Write your comment here" class="form-control"></textarea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label"></label>
+                  <div class="col-md-9">
+                    <button type="submit"  class="btn btn-success"> Save </button>
+                    <span></span>
+                    <input type="reset" class="btn btn-default" value="Cancel">
+                  </div>
+                </div>
+              </form>
+
+              <br><br>
+              <ul class="messages">
+                @foreach($comments as $comment)
+                
+                <li>
+                  
+                  <div class="message_date">
+                    {{-- <h3 class="date text-info"></h3> --}}
+                    {{-- <p class="month">{{$scholarship->getMonth()}}</p> --}}
+                  </div>
+                  <div class="message_wrapper">
+                    <h4 class="heading">{{$comment->name}}</h4>
+                    <small>{{$comment->getDate()}}</small>
+                    <blockquote class="message"><h5>{{$comment->content}}</h5></blockquote>
+                    
+                    {{-- <p class="url">
+                      <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                      <a href="{{ route('scholarship.view', $scholarship->id) }}"><i class="fa fa-paperclip"></i> Read More </a>
+                    </p> --}}
+                  </div>
+                </li>
+                @endforeach
+
+              </ul>
               <!-- end user projects -->
 
             </div>

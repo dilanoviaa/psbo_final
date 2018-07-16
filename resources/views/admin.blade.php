@@ -18,7 +18,7 @@
                             <p class="month">{{$scholarship->getMonth()}}</p>
                           </div>
                           <div class="message_wrapper">
-                            <h4 class="heading">{{$scholarship->name}}</h4>
+                            <h4 class="heading"><a href="{{ route('scholarship.view', $scholarship->id) }}">{{$scholarship->name}}</a></h4>
                             <blockquote class="message"><h5>You just add Scholarship Post on {{$scholarship->getDate()}}</h5></blockquote>
                             
                             <p class="url">
